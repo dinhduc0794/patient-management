@@ -3,7 +3,7 @@ package com.javaweb.hospital.controllers.patient;
 import com.javaweb.hospital.controllers.patient.request.PatientCreateReq;
 import com.javaweb.hospital.controllers.patient.request.PatientUpdateReq;
 import com.javaweb.hospital.controllers.patient.response.PatientRes;
-import com.javaweb.hospital.services.IPatientService;
+import com.javaweb.hospital.services.patient.IPatientService;
 import com.javaweb.hospital.services.dto.patient.PatientDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.javaweb.hospital.repositories;
+package com.javaweb.hospital.repositories.patient;
 
 import com.javaweb.hospital.models.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;

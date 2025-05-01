@@ -1,4 +1,4 @@
-package com.javaweb.hospital.services;
+package com.javaweb.hospital.services.patient;
 
 import com.javaweb.hospital.services.dto.patient.PatientDto;
 
@@ -9,6 +9,5 @@ public interface IPatientService {
     PatientDto createPatient(PatientDto patientDto);
     PatientDto updatePatient(PatientDto patientDto);
     void deletePatient(UUID id);
-
 
 }

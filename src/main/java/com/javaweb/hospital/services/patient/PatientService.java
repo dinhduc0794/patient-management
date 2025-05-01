@@ -1,12 +1,10 @@
-package com.javaweb.hospital.services.impl;
+package com.javaweb.hospital.services.patient;
 
 import com.javaweb.hospital.models.Patient;
-import com.javaweb.hospital.repositories.PatientRepository;
-import com.javaweb.hospital.services.IPatientService;
+import com.javaweb.hospital.repositories.patient.PatientRepository;
 import com.javaweb.hospital.services.dto.patient.PatientDto;
 import com.javaweb.hospital.services.dto.patient.PatientDtoMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

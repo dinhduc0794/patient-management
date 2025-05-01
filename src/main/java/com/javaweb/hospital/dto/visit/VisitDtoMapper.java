@@ -1,4 +1,4 @@
-package com.javaweb.hospital.services.dto.visit;
+package com.javaweb.hospital.dto.visit;
 
 import com.javaweb.hospital.models.Visit;
 import org.mapstruct.*;

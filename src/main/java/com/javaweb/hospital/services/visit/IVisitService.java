@@ -1,6 +1,6 @@
 package com.javaweb.hospital.services.visit;
 
-import com.javaweb.hospital.services.dto.visit.VisitDto;
+import com.javaweb.hospital.dto.visit.VisitDto;
 
 public interface IVisitService {
 

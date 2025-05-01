@@ -1,7 +1,7 @@
-package com.javaweb.hospital.services.dto.visit;
+package com.javaweb.hospital.dto.visit;
 
-import com.javaweb.hospital.services.dto.doctor.DoctorDto;
-import com.javaweb.hospital.services.dto.patient.PatientDto;
+import com.javaweb.hospital.dto.doctor.DoctorDto;
+import com.javaweb.hospital.dto.patient.PatientDto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

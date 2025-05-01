@@ -1,4 +1,4 @@
-package com.javaweb.hospital.services.dto.doctor;
+package com.javaweb.hospital.dto.doctor;
 
 import com.javaweb.hospital.models.Doctor;
 import org.mapstruct.*;

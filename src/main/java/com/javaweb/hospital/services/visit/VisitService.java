@@ -7,7 +7,7 @@ import com.javaweb.hospital.models.Visit;
 import com.javaweb.hospital.repositories.doctor.DoctorRepository;
 import com.javaweb.hospital.repositories.patient.PatientRepository;
 import com.javaweb.hospital.repositories.visit.VisitRepository;
-import com.javaweb.hospital.services.dto.visit.VisitDto;
+import com.javaweb.hospital.dto.visit.VisitDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -2,8 +2,8 @@ package com.javaweb.hospital.services.patient;
 
 import com.javaweb.hospital.models.Patient;
 import com.javaweb.hospital.repositories.patient.PatientRepository;
-import com.javaweb.hospital.services.dto.patient.PatientDto;
-import com.javaweb.hospital.services.dto.patient.PatientDtoMapper;
+import com.javaweb.hospital.dto.patient.PatientDto;
+import com.javaweb.hospital.dto.patient.PatientDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

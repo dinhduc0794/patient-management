@@ -1,4 +1,4 @@
-package com.javaweb.hospital.services.dto.doctor;
+package com.javaweb.hospital.dto.doctor;
 
 import java.io.Serializable;
 import java.util.UUID;

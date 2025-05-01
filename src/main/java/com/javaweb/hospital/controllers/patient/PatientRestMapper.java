@@ -3,7 +3,7 @@ package com.javaweb.hospital.controllers.patient;
 import com.javaweb.hospital.controllers.patient.request.PatientCreateReq;
 import com.javaweb.hospital.controllers.patient.request.PatientUpdateReq;
 import com.javaweb.hospital.controllers.patient.response.PatientRes;
-import com.javaweb.hospital.services.dto.patient.PatientDto;
+import com.javaweb.hospital.dto.patient.PatientDto;
 import org.mapstruct.*;
 
 import java.util.UUID;

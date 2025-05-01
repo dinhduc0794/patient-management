@@ -4,7 +4,7 @@ import com.javaweb.hospital.controllers.doctor.request.DoctorCreateReq;
 import com.javaweb.hospital.controllers.doctor.request.DoctorUpdateReq;
 import com.javaweb.hospital.controllers.doctor.response.DoctorRes;
 import com.javaweb.hospital.services.doctor.IDoctorService;
-import com.javaweb.hospital.services.dto.doctor.DoctorDto;
+import com.javaweb.hospital.dto.doctor.DoctorDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

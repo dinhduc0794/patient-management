@@ -1,6 +1,6 @@
 package com.javaweb.hospital.services.patient;
 
-import com.javaweb.hospital.services.dto.patient.PatientDto;
+import com.javaweb.hospital.dto.patient.PatientDto;
 
 import java.util.UUID;
 

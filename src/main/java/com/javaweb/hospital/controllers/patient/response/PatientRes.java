@@ -1,6 +1,6 @@
 package com.javaweb.hospital.controllers.patient.response;
 
-import com.javaweb.hospital.models.enumurate.Gender;
+import com.javaweb.hospital.enums.Gender;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

@@ -1,6 +1,6 @@
 package com.javaweb.hospital.dto.patient;
 
-import com.javaweb.hospital.models.enumurate.Gender;
+import com.javaweb.hospital.enums.Gender;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

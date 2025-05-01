@@ -1,6 +1,6 @@
 package com.javaweb.hospital.controllers.patient.request;
 
-import com.javaweb.hospital.models.enumurate.Gender;
+import com.javaweb.hospital.enums.Gender;
 import jakarta.validation.constraints.*;
 
 import java.io.Serializable;

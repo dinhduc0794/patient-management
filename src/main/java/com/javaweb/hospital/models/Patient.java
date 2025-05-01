@@ -1,6 +1,6 @@
 package com.javaweb.hospital.models;
 
-import com.javaweb.hospital.models.enumurate.Gender;
+import com.javaweb.hospital.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;

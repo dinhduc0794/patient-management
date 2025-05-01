@@ -1,7 +1,13 @@
 package com.javaweb.hospital.models;
 
+import com.javaweb.hospital.models.enumurate.Gender;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "patients")
@@ -11,10 +17,28 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Patient extends BaseModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
 
-    private String name;
-    private String description;
+    @Id
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", unique = true, nullable = false, length = 36, columnDefinition = "CHAR(36)")
+    private UUID id;
+
+    @Column(name = "first_name", length = 255, nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", length = 255, nullable = false)
+    private String lastName;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @Column(name = "date_of_birth", nullable = false)
+    private LocalDateTime dateOfBirth;
+
+    @Column(name = "email", length = 255)
+    private String email;
+
+    @Column(name = "contact_number", length = 20, columnDefinition = "VARCHAR(20)")
+    private String contactNumber;
 }

@@ -2,6 +2,10 @@ package com.javaweb.hospital.repositories;
 
 import com.javaweb.hospital.models.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PatientRepository extends JpaRepository<Patient, Long> {
+import java.util.UUID;
+
+@Repository
+public interface PatientRepository extends JpaRepository<Patient, UUID> {
 }

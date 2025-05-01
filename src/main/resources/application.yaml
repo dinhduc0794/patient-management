@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: leave-management
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/patient_management
+    username: root
+    password: 'PitbUll122#$'
+    type: com.zaxxer.hikari.HikariDataSource
+  data:
+    jpa:
+      repositories:
+        enabled: true
+        bootstrap-mode: default
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+        show_sql: true
+        jdbc:
+          sql_exception_converter:  org.hibernate.dialect.MySQLDialect
+    database: mysql
+    database-platform:  org.hibernate.dialect.MySQLDialect
+  output:
+    ansi:
+      enabled: always
+
+server:
+  address: 127.0.0.1
+  port: 4897
+  http2:
+    enabled: true
+  servlet:
+    context-path: /api
+logging:
+  charset:
+    console: UTF-8
+  level:
+    org:
+      springframework: info
+      com:
+        javaweb:
+          hospital: info
+    sql: info
+  file:
+    name: logging/leave-management.log
+  logback:
+    rollingpolicy:
+      max-file-size: 20MB
+      max-history: 30
+      total-size-cap: 2GB
+  pattern:
+    dateformat: yyyy-MM-dd'T'HH:mm:ss.SSSXXX

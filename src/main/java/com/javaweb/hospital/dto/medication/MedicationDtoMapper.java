@@ -15,6 +15,7 @@ public abstract class MedicationDtoMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "prescriptions", ignore = true)
     public abstract Medication toEntity(MedicationDto dto);
 
     public abstract MedicationDto toDto(Medication entity);

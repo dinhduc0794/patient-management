@@ -12,6 +12,10 @@ public record PatientDto(
   Gender gender,
   LocalDateTime dateOfBirth,
   String email,
-  String contactNumber
+  String contactNumber,
+  String address
 ) {
+    public PatientDto(UUID id) {
+        this(id, null, null, null, null, null, null, null);
+    }
 }

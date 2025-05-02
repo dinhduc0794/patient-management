@@ -14,7 +14,7 @@ import java.util.TreeSet;
 public class Medication extends BaseModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private Integer id;
 

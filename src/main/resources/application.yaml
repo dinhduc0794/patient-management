@@ -58,3 +58,6 @@ logging:
       total-size-cap: 2GB
   pattern:
     dateformat: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+springdoc:
+  swagger-ui:
+    enabled: true

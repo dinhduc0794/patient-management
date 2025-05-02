@@ -12,6 +12,7 @@ public record PatientUpdateReq(
     @NotNull Gender gender,
     @Past LocalDateTime dateOfBirth,
     @Email String email,
-    String contactNumber
+    @Size(max = 20) String contactNumber,
+    @Size(max = 255) String address
 ) implements Serializable {
 }

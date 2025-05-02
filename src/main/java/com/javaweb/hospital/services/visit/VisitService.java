@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor(onConstructor_ = { @Autowired })
 public class VisitService implements IVisitService {
@@ -62,6 +64,16 @@ public class VisitService implements IVisitService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, timeout = 2)
     public void deleteVisit(Long id) {
+        Visit visit = this.visitRepo.findById(id)
+            .orElseThrow(() -> ModelNotFoundException.of("Visit id", Visit.class.getSimpleName()));
+        this.visitRepo.delete(visit);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, timeout = 2)
+    public void deleteVisit(UUID patientId, Long id) {
+        Patient patient = this.patientRepo.findById(patientId)
+            .orElseThrow(() -> ModelNotFoundException.of("Patient id", Patient.class.getSimpleName()));
         Visit visit = this.visitRepo.findById(id)
             .orElseThrow(() -> ModelNotFoundException.of("Visit id", Visit.class.getSimpleName()));
         this.visitRepo.delete(visit);

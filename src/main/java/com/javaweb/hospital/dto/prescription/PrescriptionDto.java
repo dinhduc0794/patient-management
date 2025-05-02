@@ -1,14 +1,15 @@
 package com.javaweb.hospital.dto.prescription;
 
 import com.javaweb.hospital.dto.medication.MedicationDto;
-import com.javaweb.hospital.dto.patient.PatientDto;
 import com.javaweb.hospital.dto.visit.VisitDto;
+import lombok.Data;
 
-public record PrescriptionDto(
-    Long id,
-    Integer quantity,
-    String instructions,
-    Long duration,
-    VisitDto patientVisit,
-    MedicationDto medication) {
+@Data
+public class PrescriptionDto {
+    private Long id;
+    private Integer quantity;
+    private String instructions;
+    private Long duration;
+    private VisitDto patientVisit;
+    private MedicationDto medication;
 }

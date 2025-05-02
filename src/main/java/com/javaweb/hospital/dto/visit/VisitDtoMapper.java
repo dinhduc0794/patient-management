@@ -1,5 +1,6 @@
 package com.javaweb.hospital.dto.visit;
 
+import com.javaweb.hospital.controllers.doctor.DoctorRestMapper;
 import com.javaweb.hospital.dto.patient.PatientDtoMapper;
 import com.javaweb.hospital.models.Visit;
 import org.mapstruct.*;
@@ -10,7 +11,7 @@ import org.mapstruct.*;
     unmappedTargetPolicy = ReportingPolicy.WARN,
     collectionMappingStrategy = CollectionMappingStrategy.TARGET_IMMUTABLE,
     injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-    uses = { PatientDtoMapper.class, VisitDtoMapper.class }
+    uses = { PatientDtoMapper.class, DoctorRestMapper.class }
 )
 public abstract class VisitDtoMapper {
 
@@ -18,6 +19,7 @@ public abstract class VisitDtoMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "patient", ignore = true)
     @Mapping(target = "doctor", ignore = true)
+    @Mapping(target = "prescriptions", ignore = true)
     public abstract Visit toEntity(VisitDto dto);
 
     @Mapping(source = "id", target = "id")

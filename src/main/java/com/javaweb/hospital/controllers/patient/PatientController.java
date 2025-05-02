@@ -3,9 +3,22 @@ package com.javaweb.hospital.controllers.patient;
 import com.javaweb.hospital.controllers.patient.request.PatientCreateReq;
 import com.javaweb.hospital.controllers.patient.request.PatientUpdateReq;
 import com.javaweb.hospital.controllers.patient.response.PatientRes;
+import com.javaweb.hospital.controllers.prescription.PrescriptionRestMapper;
+import com.javaweb.hospital.controllers.prescription.request.PrescriptionCreateReq;
+import com.javaweb.hospital.controllers.prescription.response.PrescriptionRes;
+import com.javaweb.hospital.controllers.visit.VisitRestMapper;
+import com.javaweb.hospital.controllers.visit.request.VisitCreateReq;
+import com.javaweb.hospital.controllers.visit.request.VisitUpdateReq;
+import com.javaweb.hospital.controllers.visit.response.VisitRes;
+import com.javaweb.hospital.dto.prescription.PrescriptionDto;
+import com.javaweb.hospital.dto.visit.VisitDto;
 import com.javaweb.hospital.services.patient.IPatientService;
 import com.javaweb.hospital.dto.patient.PatientDto;
+import com.javaweb.hospital.services.prescription.IPrescriptionService;
+import com.javaweb.hospital.services.visit.IVisitService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,12 +36,27 @@ import java.util.UUID;
 public class PatientController {
 
     private final IPatientService patientService;
+    private final IVisitService visitService;
+    private final IPrescriptionService prescriptionService;
+
 
     private PatientRestMapper patientMapper;
+    private VisitRestMapper visitMapper;
+    private PrescriptionRestMapper prescriptionMapper;
 
     @Autowired
     public void setPatientMapper(@Qualifier("patientRestMapperImpl") PatientRestMapper patientMapper) {
         this.patientMapper = patientMapper;
+    }
+
+    @Autowired
+    public void setVisitMapper(@Qualifier("visitRestMapperImpl") VisitRestMapper visitMapper) {
+        this.visitMapper = visitMapper;
+    }
+
+    @Autowired
+    public void setPrescriptionMapper(@Qualifier("prescriptionRestMapperImpl") PrescriptionRestMapper prescriptionMapper) {
+        this.prescriptionMapper = prescriptionMapper;
     }
 
     @PostMapping
@@ -47,6 +75,43 @@ public class PatientController {
     public ResponseEntity<Void> deletePatient(@PathVariable("id") UUID id) {
         this.patientService.deletePatient(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(path = "{id}/visits")
+    public ResponseEntity<VisitRes> createVisit(@PathVariable("id") @NotNull UUID id, @RequestBody @Valid @NotNull VisitCreateReq req) {
+        VisitDto dto = this.visitService.createVisit(this.visitMapper.toDto(req, id));
+        return ResponseEntity.ok(this.visitMapper.toRes(dto));
+    }
+
+    @PutMapping(path = "{patient-id}/visits/{visit-id}")
+    public ResponseEntity<VisitRes> updateVisit(@PathVariable("patient-id") @Valid @NotNull UUID patientId,
+                                                @PathVariable("visit-id") @Valid @NotNull @Min(1) Long visitId,
+                                                @RequestBody @Valid @NotNull VisitUpdateReq req) {
+        VisitDto dto = this.visitService.updateVisit(this.visitMapper.toDto(req, patientId, visitId));
+        return ResponseEntity.ok(this.visitMapper.toRes(dto));
+    }
+
+    @DeleteMapping(path = "{patient-id}/visits/{visit-id}")
+    public ResponseEntity<Void> deleteVisit(@PathVariable("patient-id") @Valid @NotNull UUID patientId,
+                                            @PathVariable("visit-id") @Valid @NotNull @Min(1) Long visitId) {
+        this.visitService.deleteVisit(patientId, visitId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("{patient-id}/visits/{visit-id}/prescriptions")
+    public ResponseEntity<PrescriptionRes> createPrescription(@PathVariable("patient-id") @Valid @NotNull UUID patientId,
+                                                              @PathVariable("visit-id") @Valid @Min(1) Long visitId,
+                                                              @RequestBody @Valid @NotNull PrescriptionCreateReq req) {
+        PrescriptionDto dto = this.prescriptionService.createPrescription(this.prescriptionMapper.toDto(req, patientId, visitId));
+        return ResponseEntity.ok(this.prescriptionMapper.toRes(dto));
+    }
+
+    @PutMapping("{patient-id}/visits/{visit-id}/prescriptions/{prescription-id}")
+    public ResponseEntity<PrescriptionRes> updatePrescription(@PathVariable("patient-id") @Valid @NotNull UUID patientId,
+                                                              @PathVariable("visit-id") @Valid @Min(1) Long visitId,
+                                                              @PathVariable("presription-id") @Valid @NotNull @Min(1) Long prescriptionId,
+                                                              @RequestBody @Valid @NotNull PrescriptionCreateReq req) {
+        return null;
     }
 
 }

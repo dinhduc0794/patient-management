@@ -5,6 +5,7 @@ import com.javaweb.hospital.dto.patient.PatientDto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record VisitDto(
     Long id,
@@ -16,4 +17,12 @@ public record VisitDto(
     PatientDto patient,
     DoctorDto doctor
 ) implements Serializable {
+
+    public VisitDto(Long id) {
+        this(id, null, null, null, null, null, null, null);
+    }
+
+    public VisitDto(Long id, UUID patientId) {
+        this(id, null, null, null, null, null, new PatientDto(patientId), null);
+    }
 }

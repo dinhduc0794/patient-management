@@ -2,13 +2,15 @@ package com.javaweb.hospital.controllers.exception;
 
 
 import com.javaweb.hospital.exception.handler.IAppExceptionHandler;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice(basePackages = {
-  "con,javaweb.hospital"
+@Hidden
+@RestControllerAdvice(basePackages = {
+  "com.javaweb.hospital.controllers"
 })
 public class RestExceptionHandler {
 

@@ -26,7 +26,20 @@ public abstract class PatientRestMapper {
     @Mapping(source = "req.email", target = "email")
     @Mapping(source = "req.gender", target = "gender")
     @Mapping(source = "req.contactNumber", target = "contactNumber")
+    @Mapping(source = "req.address", target = "address")
     public abstract PatientDto toDto(PatientUpdateReq req, UUID id);
 
+    @Named("uuidToPatientDto")
+    @Mapping(source = "id", target = "id")
+    @Mapping(target = "firstName", ignore = true)
+    @Mapping(target = "lastName", ignore = true)
+    @Mapping(target = "address", ignore = true)
+    @Mapping(target = "contactNumber", ignore = true)
+    @Mapping(target = "dateOfBirth", ignore = true)
+    @Mapping(target = "email", ignore = true)
+    @Mapping(target = "gender", ignore = true)
+    public abstract PatientDto toDto(UUID id);
+
     public abstract PatientRes toRes(PatientDto dto);
+
 }

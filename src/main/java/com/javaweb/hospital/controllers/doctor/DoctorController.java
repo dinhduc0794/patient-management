@@ -6,6 +6,7 @@ import com.javaweb.hospital.controllers.doctor.response.DoctorRes;
 import com.javaweb.hospital.services.doctor.IDoctorService;
 import com.javaweb.hospital.dto.doctor.DoctorDto;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,8 +18,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "doctors",
-  produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE },
-  consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+  produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+  consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DoctorController {
 
@@ -38,7 +39,7 @@ public class DoctorController {
     }
 
     @PutMapping(path = "{id}")
-    public ResponseEntity<DoctorRes> updateDoctor(@PathVariable("id") UUID id, @RequestBody @Valid DoctorUpdateReq req) {
+    public ResponseEntity<DoctorRes> updateDoctor(@PathVariable("id") @NotNull UUID id, @RequestBody @Valid DoctorUpdateReq req) {
         DoctorDto dto = this.doctorService.updateDoctor(this.doctorMapper.toDto(req, id));
         return ResponseEntity.ok(this.doctorMapper.toRes(dto));
     }

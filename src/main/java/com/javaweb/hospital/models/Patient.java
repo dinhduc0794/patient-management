@@ -9,6 +9,7 @@ import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 
 @Entity
@@ -44,8 +45,11 @@ public class Patient extends BaseModel {
     @Column(name = "contact_number", length = 20, columnDefinition = "VARCHAR(20)")
     private String contactNumber;
 
+    @Column(name = "address", length = 255)
+    private String address;
+
     @OneToMany(fetch = FetchType.LAZY,
       cascade = { CascadeType.DETACH, CascadeType.REFRESH},
       mappedBy = "patient")
-    private Set<Visit> visits = new HashSet<>();
+    private Set<Visit> visits = new TreeSet<>();
 }

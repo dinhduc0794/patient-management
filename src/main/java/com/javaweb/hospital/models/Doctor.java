@@ -5,8 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 
 @Table(name = "doctors")
@@ -24,16 +24,16 @@ public class Doctor extends BaseModel {
     @Column(name = "id", nullable = false, length = 36, columnDefinition = "CHAR(36)")
     private UUID id;
 
-    @Column(name = "firstName", length = 255, nullable = false)
+    @Column(name = "first_name", length = 255, nullable = false)
     private String firstName;
 
-    @Column(name = "lastName", length = 255, nullable = false)
+    @Column(name = "last_name", length = 255, nullable = false)
     private String lastName;
 
     @Column(name = "specialization", length = 255)
     private String specialization;
 
-    @Column(name = "contactNumber", length = 20)
+    @Column(name = "contact_number", length = 20)
     private String contactNumber;
 
     @Column(name = "email", length = 255)
@@ -43,5 +43,7 @@ public class Doctor extends BaseModel {
       cascade = { CascadeType.DETACH, CascadeType.MERGE },
       mappedBy = "doctor")
     @Builder.Default
-    private Set<Visit> patientVisits = new HashSet<>();
+    private Set<Visit> patientVisits = new TreeSet<>();
+
+
 }

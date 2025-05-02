@@ -5,12 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Table(name = "visits")
 @Entity
 @Setter
 @Getter
-public class Visit extends BaseModel {
+public class Visit extends BaseModel implements Comparable<Visit> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -40,4 +43,29 @@ public class Visit extends BaseModel {
       cascade = { CascadeType.DETACH, CascadeType.REFRESH })
     @JoinColumn(name = "doctor_id", referencedColumnName = "id")
     private Doctor doctor;
+
+    @OneToMany(fetch = FetchType.LAZY,
+      cascade = { CascadeType.DETACH, CascadeType.REFRESH },
+      orphanRemoval = true,
+      mappedBy = "patientVisit")
+    private Set<Prescription> prescriptions = new TreeSet<>();
+
+    @Override
+    public int compareTo(Visit o) {
+        return o.visitTime.compareTo(this.visitTime);
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+        if (doctor != null) {
+            doctor.getPatientVisits().add(this);
+        }
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+        if (patient != null) {
+            patient.getVisits().add(this);
+        }
+    }
 }

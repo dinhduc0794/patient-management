@@ -18,6 +18,7 @@ public abstract class DoctorDtoMapper {
     @Mapping(source = "contactNumber", target = "contactNumber")
     @Mapping(source = "email", target = "email")
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "patientVisits", ignore = true)
     public abstract Doctor toEntity(DoctorDto dto);
 
     @Mapping(source = "id", target = "id")

@@ -1,5 +1,6 @@
 package com.javaweb.hospital.services.patient;
 
+import com.javaweb.hospital.exception.ModelNotFoundException;
 import com.javaweb.hospital.models.Patient;
 import com.javaweb.hospital.repositories.patient.PatientRepository;
 import com.javaweb.hospital.dto.patient.PatientDto;
@@ -38,7 +39,8 @@ public class PatientService implements IPatientService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, timeout = 2)
     public PatientDto updatePatient(PatientDto dto) {
-        Patient patient = this.patientRepo.findById(dto.id()).get();
+        Patient patient = this.patientRepo.findById(dto.id())
+            .orElseThrow(() -> ModelNotFoundException.of("Patient id", Patient.class.getSimpleName()));
         patient.setEmail(dto.email());
         patient.setFirstName(dto.firstName());
         patient.setLastName(dto.lastName());
@@ -51,6 +53,8 @@ public class PatientService implements IPatientService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE, timeout = 2)
     public void deletePatient(UUID id) {
-        this.patientRepo.deleteById(id);
+        Patient patient = this.patientRepo.findById(id)
+            .orElseThrow(() -> ModelNotFoundException.of("Patient id", Patient.class.getSimpleName()));
+        this.patientRepo.delete(patient);
     }
 }

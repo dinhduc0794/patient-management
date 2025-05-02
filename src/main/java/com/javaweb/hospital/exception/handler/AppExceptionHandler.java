@@ -1,7 +1,6 @@
 package com.javaweb.hospital.exception.handler;
 
-import com.hrm.leavemanagement.service.exception.*;
-import com.hrm.leavemanagement.utils.naming.NamingConvention;
+import com.javaweb.hospital.exception.*;
 import org.hibernate.TransactionException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -51,14 +50,13 @@ public class AppExceptionHandler implements IAppExceptionHandler {
 
 
   private ApplicationException convertSpringValidationException(HandlerMethodValidationException ex) {
-    ex.getBeanResults().getFirst().getAllErrors().getFirst().getArguments();
     String field = Optional.ofNullable(ex.getBeanResults().getFirst())
       .map(ParameterErrors::getFieldError).map(FieldError::getField)
       .orElse("undefined");
     String message = Optional.ofNullable(ex.getBeanResults().getFirst())
       .map(ParameterErrors::getFieldError).map(FieldError::getDefaultMessage)
       .orElse("undefined");
-    return InvalidFieldException.of(message, NamingConvention.toSnakeCase(field));
+    return InvalidFieldException.of(message, field);
   }
 
   private ApplicationException convertHttpMessageNotReadableException(HttpMessageNotReadableException ex) {

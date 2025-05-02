@@ -1,7 +1,7 @@
 package com.javaweb.hospital.exception.handler;
 
 
-import com.hrm.leavemanagement.service.exception.ApplicationException;
+import com.javaweb.hospital.exception.ApplicationException;
 
 public interface IAppExceptionHandler {
 

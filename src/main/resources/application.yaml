@@ -1,6 +1,6 @@
 spring:
   application:
-    name: leave-management
+    name: patient-management
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/patient_management
@@ -12,7 +12,6 @@ spring:
       repositories:
         enabled: true
         bootstrap-mode: default
-
   jpa:
     generate-ddl: false
     hibernate:

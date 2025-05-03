@@ -8,11 +8,15 @@ import com.javaweb.hospital.dto.patient.PatientDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -56,5 +60,12 @@ public class PatientService implements IPatientService {
         Patient patient = this.patientRepo.findById(id)
             .orElseThrow(() -> ModelNotFoundException.of("Patient id", Patient.class.getSimpleName()));
         this.patientRepo.delete(patient);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, timeout = 2)
+    public List<PatientDto> getPatients(Integer page, Integer limit) {
+        Page<Patient> patients = this.patientRepo.findAllBy(PageRequest.of(page - 1, limit, Sort.by("firstName", "lastName").ascending()));
+        return patients.stream().map(patientMapper::toDto).toList();
     }
 }

@@ -14,12 +14,17 @@ import com.javaweb.hospital.repositories.visit.VisitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = { @Autowired })
@@ -81,5 +86,25 @@ public class PrescriptionService implements IPrescriptionService{
         Prescription prescription = this.prescriptionRepo.findById(prescriptionId)
             .orElseThrow(() -> ModelNotFoundException.of("Prescription id", Prescription.class.getSimpleName()));
         this.prescriptionRepo.delete(prescription);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, timeout = 2)
+    public List<PrescriptionDto> getPrescriptions(UUID patientId, Long visitId, Integer page, Integer limit) {
+        Patient patient = this.patientRepo.findById(patientId)
+            .orElseThrow(() -> ModelNotFoundException.of("Patient id", Patient.class.getSimpleName()));
+        Visit visit = this.visitRepo.findById(visitId)
+            .orElseThrow(() -> ModelNotFoundException.of("Visit id", Visit.class.getSimpleName()));
+        Page<Prescription> prescriptions = this.prescriptionRepo.getAllByPatientVisit(visit, PageRequest.of(page - 1, limit, Sort.by("createdAt").ascending()));
+        return prescriptions.stream().map(prescriptionMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, timeout = 2)
+    public List<PrescriptionDto> getPrescriptions(UUID patientId, Integer page, Integer limit) {
+        Patient patient = this.patientRepo.findById(patientId)
+            .orElseThrow(() -> ModelNotFoundException.of("Patient id", Patient.class.getSimpleName()));
+        Page<Prescription> prescriptions = this.prescriptionRepo.findAllByPatient(patient, PageRequest.of(page, limit, Sort.by("createdAt").descending()));
+        return prescriptions.stream().map(prescriptionMapper::toDto).collect(Collectors.toList());
     }
 }

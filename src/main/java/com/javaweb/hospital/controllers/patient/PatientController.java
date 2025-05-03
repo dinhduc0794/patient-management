@@ -21,7 +21,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -129,8 +128,34 @@ public class PatientController {
     }
 
     @GetMapping("page/{page}/limit/{limit}")
-    public ResponseEntity<List<PatientRes>> getPatients(@PathVariable @Valid @Min(1) @DefaultValue("1") Integer page,
-                                                        @PathVariable @Valid @Min(25) @Max(100) @DefaultValue("25") Integer limit) {
-        return null;
+    public ResponseEntity<List<PatientRes>> getPatients(@PathVariable("page") @Valid @Min(1) @DefaultValue("1") Integer page,
+                                                        @PathVariable("limit") @Valid @Min(25) @Max(100) @DefaultValue("25") Integer limit) {
+        List<PatientDto> dtos = this.patientService.getPatients(page, limit);
+        return ResponseEntity.ok(dtos.stream().map(this.patientMapper::toRes).toList());
+    }
+
+    @GetMapping(path = "{id}/visits/page/{page}/limit/{limit}")
+    public ResponseEntity<List<VisitRes>> getVisits(@PathVariable("id") @Valid @NotNull UUID id,
+                                                    @PathVariable("page") @Valid @Min(1) @DefaultValue("1") Integer page,
+                                                    @PathVariable("limit") @Valid @Min(25) @Max(100) @DefaultValue("25") Integer limit) {
+        List<VisitDto> dtos = this.visitService.getVisits(id, page, limit);
+        return ResponseEntity.ok(dtos.stream().map(this.visitMapper::toRes).toList());
+    }
+
+    @GetMapping(path = "{patient-id}/visits/{visit-id}/page/{page}/limit/{limit}")
+    public ResponseEntity<List<PrescriptionRes>> getPrescriptions(@PathVariable("patient-id") @Valid @NotNull UUID patientId,
+                                                                  @PathVariable("visit-id") @Valid @Min(1) @NotNull Long visitId,
+                                                                  @PathVariable("page") @Valid @Min(1) @DefaultValue("1") Integer page,
+                                                                  @PathVariable("limit") @Valid @Min(25) @Max(100) @DefaultValue("25") Integer limit) {
+        List<PrescriptionDto> dtos = this.prescriptionService.getPrescriptions(patientId, visitId, page, limit);
+        return ResponseEntity.ok(dtos.stream().map(this.prescriptionMapper::toRes).toList());
+    }
+
+    @GetMapping(path = "{id}/page/{page}/limit/{limit}")
+    public ResponseEntity<List<PrescriptionRes>> getPrescriptions(@PathVariable("id") @Valid @NotNull UUID id,
+                                                                  @PathVariable("page") @Valid @Min(1) @DefaultValue("1") Integer page,
+                                                                  @PathVariable("limit") @Valid @Min(25) @Max(100) @DefaultValue("25") Integer limit) {
+        List<PrescriptionDto> dtos = this.prescriptionService.getPrescriptions(id, page, limit);
+        return ResponseEntity.ok(dtos.stream().map(this.prescriptionMapper::toRes).toList());
     }
 }

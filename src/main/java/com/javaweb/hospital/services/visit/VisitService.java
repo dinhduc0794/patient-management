@@ -13,11 +13,15 @@ import com.javaweb.hospital.repositories.visit.VisitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -77,5 +81,14 @@ public class VisitService implements IVisitService {
         Visit visit = this.visitRepo.findById(id)
             .orElseThrow(() -> ModelNotFoundException.of("Visit id", Visit.class.getSimpleName()));
         this.visitRepo.delete(visit);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, timeout = 2)
+    public List<VisitDto> getVisits(UUID patientId, Integer page, Integer limit) {
+        Patient patient = this.patientRepo.findById(patientId)
+            .orElseThrow(() -> ModelNotFoundException.of("Patient id", Patient.class.getSimpleName()));
+        Page<Visit> visits = this.visitRepo.findAllByPatient(patient, PageRequest.of(page, limit, Sort.by("visitTime").descending()));
+        return visits.stream().map(this.visitMapper::toDto).toList();
     }
 }

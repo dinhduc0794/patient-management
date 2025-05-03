@@ -4,9 +4,11 @@ import com.javaweb.hospital.dto.prescription.PrescriptionDto;
 import com.javaweb.hospital.dto.prescription.PrescriptionDtoMapper;
 import com.javaweb.hospital.exception.ModelNotFoundException;
 import com.javaweb.hospital.models.Medication;
+import com.javaweb.hospital.models.Patient;
 import com.javaweb.hospital.models.Prescription;
 import com.javaweb.hospital.models.Visit;
 import com.javaweb.hospital.repositories.medication.MedicationRepository;
+import com.javaweb.hospital.repositories.patient.PatientRepository;
 import com.javaweb.hospital.repositories.prescription.PrescriptionRepository;
 import com.javaweb.hospital.repositories.visit.VisitRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +19,13 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor(onConstructor_ = { @Autowired })
 public class PrescriptionService implements IPrescriptionService{
 
+    private final PatientRepository patientRepo;
     private final PrescriptionRepository prescriptionRepo;
     private final VisitRepository visitRepo;
     private final MedicationRepository medicationRepo;
@@ -62,6 +67,18 @@ public class PrescriptionService implements IPrescriptionService{
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, timeout = 2)
     public void deletePrescription(Long id) {
         Prescription prescription = this.prescriptionRepo.findById(id)
+            .orElseThrow(() -> ModelNotFoundException.of("Prescription id", Prescription.class.getSimpleName()));
+        this.prescriptionRepo.delete(prescription);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, timeout = 2)
+    public void deletePrescriptions(UUID patientId, Long visitId, Long prescriptionId) {
+        Patient patient = this.patientRepo.findById(patientId)
+            .orElseThrow(() -> ModelNotFoundException.of("Patient id", Patient.class.getSimpleName()));
+        Visit visit = this.visitRepo.findById(visitId)
+            .orElseThrow(() -> ModelNotFoundException.of("Visit id", Visit.class.getSimpleName()));
+        Prescription prescription = this.prescriptionRepo.findById(prescriptionId)
             .orElseThrow(() -> ModelNotFoundException.of("Prescription id", Prescription.class.getSimpleName()));
         this.prescriptionRepo.delete(prescription);
     }

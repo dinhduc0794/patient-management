@@ -5,6 +5,7 @@ import com.javaweb.hospital.controllers.patient.request.PatientUpdateReq;
 import com.javaweb.hospital.controllers.patient.response.PatientRes;
 import com.javaweb.hospital.controllers.prescription.PrescriptionRestMapper;
 import com.javaweb.hospital.controllers.prescription.request.PrescriptionCreateReq;
+import com.javaweb.hospital.controllers.prescription.request.PrescriptionUpdateReq;
 import com.javaweb.hospital.controllers.prescription.response.PrescriptionRes;
 import com.javaweb.hospital.controllers.visit.VisitRestMapper;
 import com.javaweb.hospital.controllers.visit.request.VisitCreateReq;
@@ -17,15 +18,19 @@ import com.javaweb.hospital.dto.patient.PatientDto;
 import com.javaweb.hospital.services.prescription.IPrescriptionService;
 import com.javaweb.hospital.services.visit.IVisitService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -109,9 +114,23 @@ public class PatientController {
     @PutMapping("{patient-id}/visits/{visit-id}/prescriptions/{prescription-id}")
     public ResponseEntity<PrescriptionRes> updatePrescription(@PathVariable("patient-id") @Valid @NotNull UUID patientId,
                                                               @PathVariable("visit-id") @Valid @Min(1) Long visitId,
-                                                              @PathVariable("presription-id") @Valid @NotNull @Min(1) Long prescriptionId,
-                                                              @RequestBody @Valid @NotNull PrescriptionCreateReq req) {
-        return null;
+                                                              @PathVariable("prescription-id") @Valid @NotNull @Min(1) Long prescriptionId,
+                                                              @RequestBody @Valid @NotNull PrescriptionUpdateReq req) {
+        PrescriptionDto dto = this.prescriptionService.updatePrescription(this.prescriptionMapper.toDto(req, patientId, visitId, prescriptionId));
+        return ResponseEntity.ok(this.prescriptionMapper.toRes(dto));
     }
 
+    @DeleteMapping("{patient-id}/visits/{visit-id}/prescriptions/{prescription-id}")
+    public ResponseEntity<Void> deletePrescription(@PathVariable("patient-id") @Valid @NotNull UUID patientId,
+                                                   @PathVariable("visit-id") @Valid @Min(1) Long visitId,
+                                                   @PathVariable("prescription-id") @Valid @NotNull @Min(1) Long prescriptionId) {
+        this.prescriptionService.deletePrescriptions(patientId, visitId, prescriptionId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("page/{page}/limit/{limit}")
+    public ResponseEntity<List<PatientRes>> getPatients(@PathVariable @Valid @Min(1) @DefaultValue("1") Integer page,
+                                                        @PathVariable @Valid @Min(25) @Max(100) @DefaultValue("25") Integer limit) {
+        return null;
+    }
 }

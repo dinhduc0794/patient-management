@@ -4,6 +4,7 @@ import com.javaweb.hospital.controllers.doctor.DoctorRestMapper;
 import com.javaweb.hospital.controllers.medication.MedicationRestMapper;
 import com.javaweb.hospital.controllers.patient.PatientRestMapper;
 import com.javaweb.hospital.controllers.prescription.request.PrescriptionCreateReq;
+import com.javaweb.hospital.controllers.prescription.request.PrescriptionUpdateReq;
 import com.javaweb.hospital.controllers.prescription.response.PrescriptionRes;
 import com.javaweb.hospital.dto.prescription.PrescriptionDto;
 import com.javaweb.hospital.dto.visit.VisitDto;
@@ -29,6 +30,14 @@ public abstract class PrescriptionRestMapper {
     @Mapping(target = "id", ignore = true)
     public abstract PrescriptionDto toDto(PrescriptionCreateReq req, UUID patientId, Long visitId);
 
+    @Mapping(source = "req.quantity", target = "quantity")
+    @Mapping(source = "req.instructions", target = "instructions")
+    @Mapping(source = "req.duration", target = "duration")
+    @Mapping(source = "req.medicationId", target = "medication.id")
+    @Mapping(source = "prescriptionId", target = "id")
+    @Mapping(target = "patientVisit", ignore = true)
+    public abstract PrescriptionDto toDto(PrescriptionUpdateReq req, UUID patientId, Long visitId, Long prescriptionId);
+
     @Mapping(source = "id", target = "id")
     @Mapping(source = "quantity", target = "quantity")
     @Mapping(source = "instructions", target = "instructions")
@@ -39,6 +48,11 @@ public abstract class PrescriptionRestMapper {
 
     @AfterMapping
     protected void setPatientVisit(@MappingTarget PrescriptionDto dto, UUID patientId, Long visitId) {
+        dto.setPatientVisit(new VisitDto(visitId, patientId));
+    }
+
+    @AfterMapping
+    protected void setPatientVisit(@MappingTarget PrescriptionDto dto, UUID patientId, Long visitId, Long prescriptionId) {
         dto.setPatientVisit(new VisitDto(visitId, patientId));
     }
 }

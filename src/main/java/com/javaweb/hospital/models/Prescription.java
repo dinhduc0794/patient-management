@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Prescription extends BaseModel implements Comparable<Prescription> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private Long id;
 

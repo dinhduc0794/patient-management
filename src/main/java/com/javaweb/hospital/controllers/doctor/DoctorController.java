@@ -1,25 +1,33 @@
 package com.javaweb.hospital.controllers.doctor;
 
-import com.javaweb.hospital.controllers.doctor.request.DoctorCreateReq;
-import com.javaweb.hospital.controllers.doctor.request.DoctorUpdateReq;
-import com.javaweb.hospital.controllers.doctor.response.DoctorRes;
-import com.javaweb.hospital.services.doctor.IDoctorService;
-import com.javaweb.hospital.dto.doctor.DoctorDto;
-import com.javaweb.hospital.services.visit.IVisitService;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.UUID;
+import com.javaweb.hospital.controllers.doctor.request.DoctorCreateReq;
+import com.javaweb.hospital.controllers.doctor.request.DoctorUpdateReq;
+import com.javaweb.hospital.controllers.doctor.response.DoctorRes;
+import com.javaweb.hospital.dto.doctor.DoctorDto;
+import com.javaweb.hospital.services.doctor.IDoctorService;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping(path = "doctors",
@@ -29,7 +37,7 @@ import java.util.UUID;
 public class DoctorController {
 
     private final IDoctorService doctorService;
-    private final IVisitService visitService;
+    // private final IVisitService visitService;
 
     private DoctorRestMapper doctorMapper;
 
